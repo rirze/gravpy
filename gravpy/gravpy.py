@@ -12,7 +12,7 @@ import plots
 
 class gravlens:
         
-    def __init__(self,carargs,polargs,modelargs,show_plot=True,include_caustics=True,image=None,recurse_depth=3,caustics_depth=8,logging_level='info'):
+    def __init__(self,carargs,polargs,modelargs,show_plot=True,include_caustics=True,image=np.random.normal(0,0.25,2),recurse_depth=3,caustics_depth=8,logging_level='info'):
         self.carargs = carargs
         self.xspacing = carargs[0][2]
         self.yspacing = carargs[1][2]
@@ -20,10 +20,12 @@ class gravlens:
         self.modelargs = modelargs
         self.show_plot = show_plot
         self.include_caustics = include_caustics
-        self.image = np.random.uniform(-1,1,2)
+        self.image = image
         self.recurse_depth = recurse_depth
         self.caustics_depth= caustics_depth
         self.cache = {}
+
+        self.validate_arguments()
 
         
         levels = {'critical':50, 'error':40, 'warning':30, 'info':20, 'debug':10, 'notset':0}
@@ -37,6 +39,14 @@ class gravlens:
         
         self.num_eval = 0
         print ""
+
+    def validate_arguments(self):
+        if not np.array(self.carargs).shape==(2,3):
+            raise AssertionError("'carargs' are not of the correct shape")
+        if type(self.polargs[0]) is not list:
+            raise AssertionError("'polargs' is not a list of list(s)")
+        if type(self.modelargs) is not list:
+            raise AssertionError("'modelargs' is not a list of models")
 
         
     def relation(self,x,y):
@@ -350,36 +360,37 @@ class gravlens:
         else:
             self.caustics = None
 
-            
-        dpoints = Delaunay(stack) # generate Delaunay object for triangulization/triangles
-
         self.stack = stack
         self.transformed = transformed
-        self.dpoints = dpoints
-        
+                
         
     def find_source(self):
         '''Employs the algorithm in the 'trinterior' module to find the positions of the image in the image plane. Returns the coordinate pair(s) in an array.'''
 
-        simplices = self.dpoints.simplices
+        dpoints = Delaunay(self.stack) # generate Delaunay object for triangulization/triangles
+        self.simplices = dpoints.simplices
     
-        lenstri = np.take(self.transformed,simplices,axis=0) #triangles on the source plane
-        imagetri= np.take(self.stack,simplices,axis=0) #triangles on the image plane
-    
-        indices = trint.find2(self.image,lenstri) #list of which triangles contain point on source plane
-    
+        lenstri = np.take(self.transformed,self.simplices,axis=0) #triangles on the source plane
+        imagetri= np.take(self.stack,      self.simplices,axis=0) #triangles on the image plane
+
+        try:
+            indices = trint.find2(self.image,lenstri) #list of which triangles contain point on source plane
+        except ValueError:
+            self.logger.fatal("Image location corresponding to source position not found. Re-run with bigger grid or/and use a different source position.")
+            self.realpos = []
+            return
+        
         sourcetri = imagetri[indices] 
         sourcepos = np.mean(sourcetri,axis=1) #list of the centroid coordinates for the triangles which contain the point 'image'
         realpos = np.array(
             [(op.root(self.mapping,v,jac=True,tol=1e-4)).x
              for v in sourcepos]) # use centroid coordinates as guesses for the actual root finding algorithm
-    
+        
+        
         self.realpos = realpos
     
     def run(self):
         '''The master command that wraps and executes all the commands to run a gridding example. Use this function (excusively) when using this module.'''
-                        
-        self.validate_arguments()
         
         args = self.generate_ranges()
         
@@ -402,13 +413,6 @@ class gravlens:
         self.logger.info("%d points evaluated" % self.num_eval)
         self.logger.info("%d points in cache " % len(self.cache.keys()))
 
-    def validate_arguments(self):
-        if not np.array(self.carargs).shape==(2,3):
-            raise AssertionError("'carargs' are not of the correct shape")
-        if not type(self.polargs[0]) is list:
-            raise AssertionError("'polargs' is not a list of list(s)")
-        if not type(self.modelargs) is list:
-            raise AssertionError("'modelargs' is not a list of models")
 
         
     def plot(self):
@@ -416,7 +420,7 @@ class gravlens:
         [xlowerend, xupperend, xspacing],[ylowerend,yupperend,yspacing] = self.carargs
         
         plots.source_image_planes(
-                self.stack,self.transformed,self.dpoints.simplices,
+                self.stack,self.transformed,self.simplices,
                 self.realpos,self.image,
                 xlowerend,xupperend,ylowerend,yupperend,
                 caustics=self.caustics)

@@ -20,8 +20,9 @@ def source_image_planes(stack,transformed,
         plt.scatter(critx,crity, color='red', s=1, zorder=2) # plot of critical curve(s)
 
     plt.triplot(stack[:,0],stack[:,1], simplices, color='blue', zorder=1) # plot of the Delaunay Triangulization
-   
-    plt.scatter(*zip(*realpos), marker='*', color='green', s=100, zorder=2)
+
+    if len(realpos) is not 0: # realpos may be [], in which case we don't want to plot it
+        plt.scatter(*zip(*realpos), marker='*', color='green', s=100, zorder=2)
    
     plt.subplot(1,2,2) # source plane
     plt.title('Source Plane')
@@ -39,6 +40,8 @@ def source_image_planes(stack,transformed,
 
 
 def mag_map(x,y,mag,simplices):
+
+    # TODO: currently broken and does not work
     import mayavi.mlab as m
     cutoff_log = -2
     scaled_mag = np.log10(mag) #so invalid values aren't raised, shouldn't affect visulization

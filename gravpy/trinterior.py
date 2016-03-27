@@ -67,8 +67,12 @@ def np_inside_triangle(A,B,C,P):
 def find2(p,triangles):
     '''Wrapper for the algorithm that uses numpy vector operations. Use this one for better speed!'''
     a,b,c = np.transpose(triangles,[1,0,2])
-    return np_inside_triangle(a,b,c,p)
-
+    result = np_inside_triangle(a,b,c,p)
+    
+    if result[0].size == 0:
+        raise ValueError("Point {} not found in given triangles".format(p))
+    else:
+        return result
 
 #****Speedups****
 # dot products -> determinants in inside_triangle(): 80 msec to 60 msec

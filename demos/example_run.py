@@ -1,7 +1,7 @@
 from gravpy import gravlens
 from pycallgraph import PyCallGraph,Config,GlobbingFilter
 from pycallgraph.output import GraphvizOutput
-from models import SIE,alpha,nfw
+from gravpy.models import SIE,alpha,nfw
 ############################# Actual parameters needed for evaluation
 pmodelargs = [
     SIE(0.75,-0.45,-0.5,0.1,20,0.1),
