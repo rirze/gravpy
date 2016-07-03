@@ -146,7 +146,7 @@ contains
     integer  :: ndim,ncomp,maxeval,key,nregions,neval,fail
     integer  :: rgtype(1)
     real(8)  :: epsrel,epsabs
-    real(8)  :: limits(1,2,1),AbsErr(6)
+    real(8)  :: limits(1,2,1),abserr(6)
     
     ndim = 1
     ncomp = 6
@@ -160,21 +160,24 @@ contains
     rgtype(1) = 1
     fail = -1
     
-    call cubatr(ndim,ncomp,nfwIntegrand,nregions,limits,rgtype,integral,AbsErr,&
+    call cubatr(ndim,ncomp,nfwIntegrand,nregions,limits,rgtype,integral,abserr,&
           key=key, maxpts=maxeval,neval=neval, ifail=fail)
-         
+    !
+    !call integrateN(nfwIntegrand,a,b,integral)
     !print *, 'Fail: ', fail
     !print *, 'NumEval: ', neval
     !print *, 'Key: ', key
     
   contains
     function nfwIntegrand(ncomp,x) result(res)
-      
+    !subroutine nfwIntegrand(x1,y,res) 
       integer, intent(in) :: ncomp
       real(8), intent(in) :: x(:)
+      real(8) :: x1
+      !real(8) :: res(6),y(6)
       real(8) :: res(ncomp)
       
-      real(8) :: x1,q,t0,t1,t3,t5,mphiu,k,kp
+      real(8) :: q,t0,t1,t3,t5,mphiu,k,kp
       
       x1 = x(1)
       q  = 1.0 - e
@@ -182,11 +185,12 @@ contains
       t1 = 1.0/sqrt(t0)
       t3 = t1/t0
       t5 = t3/t0
-
+      
       call nfwkap(x1,mphiu,k,kp)
-
+            
       res = (/ t1*mphiu,t1*k,t3*k,t1*kp*x1,t5*kp*x1,t3*kp*x1 /)
-          
+      
+      
     end function nfwIntegrand
 
     subroutine nfwkap(u,mphiu,k,kp)

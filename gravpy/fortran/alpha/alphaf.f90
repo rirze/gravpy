@@ -197,7 +197,7 @@ contains
       t1 = 1.0/sqrt(t0)
       t3 = t1/t0
       t5 = t3/t0
-      t6 = cost*cost+sint*sint/(1.0 - (1.0-q*q)*u)*r*r
+      t6 = (cost*cost+sint*sint/(1.0 - (1.0-q*q)*u))*r*r
       t7 = t6*u
 
       if (u==0.0) then
