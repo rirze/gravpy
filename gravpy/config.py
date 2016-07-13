@@ -3,6 +3,8 @@ from __future__ import absolute_import
 from gravpy.python.sie import siepy
 from gravpy.python.alpha import alphapy
 
+from gravpy.cython.alpha import alphac
+
 use_fortran_modules = True
 if use_fortran_modules:
     # f2py modules imported below, clunky pathing due to fortran modules, full
@@ -15,7 +17,7 @@ sie_spherical = sief.spherical
 sie_ellipitical = sief.elliptical
 
 alpha_plummer = alphapy.plummer
-alpha_general = alphaf.general
+alpha_general = alphac.general
 
 nfw_general = nfwf.nfw
 
