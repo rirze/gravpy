@@ -4,6 +4,7 @@ from gravpy.python.sie import siepy
 from gravpy.python.alpha import alphapy
 
 from gravpy.cython.alpha import alphac
+from gravpy.cython.sie import siec
 
 use_fortran_modules = True
 if use_fortran_modules:
@@ -13,8 +14,8 @@ if use_fortran_modules:
     from gravpy.fortran.alpha.alphaf import alphaf
     from gravpy.fortran.nfw.nfwf import nfwf
 
-sie_spherical = sief.spherical
-sie_ellipitical = sief.elliptical
+sie_spherical = siec.spherical
+sie_ellipitical = siec.elliptical
 
 alpha_plummer = alphapy.plummer
 alpha_general = alphac.general
