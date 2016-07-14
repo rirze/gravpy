@@ -6,10 +6,10 @@ import itertools
 import warnings
 import ctypes
 import pkg_resources
-path  = '/home/chronos/Research/lens-solver/gravpy/cython/alpha/libintegrand.so'
-lib = ctypes.CDLL(path)
-lib.alpha_integrand.restype = ctypes.c_double
-lib.alpha_integrand.argtypes= (ctypes.c_int, ctypes.c_double)
+# path  = '/home/chronos/Research/lens-solver/gravpy/cython/alpha/libintegrand.so'
+# lib = ctypes.CDLL(path)
+# lib.alpha_integrand.restype = ctypes.c_double
+# lib.alpha_integrand.argtypes= (ctypes.c_int, ctypes.c_double)
 
 def plummer(x,y,modelargs):
     '''Calculation for the alpha=-1 case'''
@@ -76,7 +76,7 @@ def general(x,y,modelargs):
                         
         else:
             warnings.warn("Evaluating integrals")
-            p0,p1,p2,p3,p4,p5 = c_alpha_integral(0.0,1.0,r,e,sint,cost,s,a)
+            p0,p1,p2,p3,p4,p5 = alpha_integral(0.0,1.0,r,e,sint,cost,s,a)
             pot  = front*(p0/2.)
             phix = front*(p1*x)
             phiy = front*(p2*y)
@@ -127,6 +127,6 @@ def alpha_integral(lower,upper,r,e,sint,cost,s,a):
     return val
 
 
-def c_alpha_integral(lower,upper,r,e,sint,cost,s,a):
-    return [scipyint.quad(lib.alpha_integrand,lower,upper,args=(r,e,sint,cost,s,a,num))[0]
-            for num in range(6)]
+# def c_alpha_integral(lower,upper,r,e,sint,cost,s,a):
+#     return [scipyint.quad(lib.alpha_integrand,lower,upper,args=(r,e,sint,cost,s,a,num))[0]
+#             for num in range(6)]
