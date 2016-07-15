@@ -1,4 +1,4 @@
-#!/usr/bin/python
+
 import numpy as np
 from scipy.spatial import Delaunay 
 import scipy.optimize as op
@@ -34,10 +34,10 @@ class gravlens:
             assert isinstance(logging_level,int)
             
         logging.basicConfig(level=logging_level,format='%(message)s')
-        self.logger = logging.getLogger(__name__)
+        self.log = logging.getLogger(__name__)
         
         self.num_eval = 0
-        print ""
+        self.log.info("")
 
     def validate_arguments(self):
         def is_a_sequence_type(arg):
@@ -83,7 +83,7 @@ class gravlens:
     
     def carmapping(self,x,y):
         '''mapping of cartesian coordinates from image to source plane'''
-        self.logger.debug("******Mapping Call******")
+        self.log.debug("******Mapping Call******")
         phiarr = self.potdefmag(x,y)
         phix,phiy = phiarr[1:3]
         
@@ -91,7 +91,7 @@ class gravlens:
     
     def magnification(self,x,y):
         '''returns the magnification of the points '''
-        self.logger.debug("***Magnification Call***")
+        self.log.debug("***Magnification Call***")
         phiarr = self.potdefmag(x,y)
         phixx,phiyy,phixy = phiarr[3:6]
         
@@ -120,7 +120,7 @@ class gravlens:
                     yc.append(y[i])
                         
                 
-            __self.logger.info("{:>13} in cache, calculating {:<8} new value(s)"
+            __self.log.info("{:>13} in cache, calculating {:<8} new value(s)"
                                .format(str(len(x)-len(xc)) + "/" + str(len(x)),len(xc)))
 
             if len(xc) is not 0:
@@ -162,7 +162,7 @@ class gravlens:
 
         self.num_eval += x.size
 
-        self.logger.debug("Evaluating %d point(s)..." % x.size)
+        self.log.debug("Evaluating %d point(s)..." % x.size)
 
         for mass_component in self.modelargs:
             
@@ -382,7 +382,7 @@ class gravlens:
             # list of which triangles contain point on source plane
             indices = trint.find2(self.image,lenstri) 
         except ValueError:
-            self.logger.fatal("Image location corresponding to source position not found. Re-run with bigger grid or/and use a different source position.")
+            self.log.fatal("Image location corresponding to source position not found. Re-run with bigger grid or/and use a different source position.")
             self.realpos = []
             return
         
@@ -410,8 +410,8 @@ class gravlens:
         if self.show_plot:
             self.plot()
 
-        self.logger.info("%d points evaluated" % self.num_eval)
-        self.logger.info("%d points in cache " % len(self.cache.keys()))
+        self.log.info("%d points evaluated" % self.num_eval)
+        self.log.info("%d points in cache " % len(self.cache.keys()))
 
         
     def plot(self):
