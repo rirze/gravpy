@@ -25,7 +25,7 @@ def setup_gravpy():
           description='A general gravitational lens solver written in python',
           author='Sourabh Cheedella',
           author_email='cheedella.sourabh@gmail.com',
-          packages=['gravpy']
+          packages=['gravpy'],
           install_requires=['cython','numpy','scipy','matplotlib',],
           ext_modules= cythonize(get_extensions()),
     )
