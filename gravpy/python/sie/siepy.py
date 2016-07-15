@@ -14,7 +14,7 @@ def elliptical(x,y,modelargs,numexpr=True):
     q2  = q*q
     om  = 1.0-q2
     rt  = np.sqrt(om)
-    psi = np.sqrt(q2*(s2+x2)+y2) if not numexpr else ne.evaluate("sqrt(q2*(s2+x2)+y2)")
+    psi = np.sqrt(q2*(s2+x2)+y2) 
     psis= psi + s
 
 
