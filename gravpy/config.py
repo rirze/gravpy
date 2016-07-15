@@ -13,6 +13,9 @@ try:
     from gravpy.fortran.sie.sief import sief
     from gravpy.fortran.alpha.alphaf import alphaf
     from gravpy.fortran.nfw.nfwf import nfwf
+except:
+    pass
+
 
 sie_spherical = siec.spherical
 sie_ellipitical = siec.elliptical
