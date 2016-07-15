@@ -1,5 +1,5 @@
 from __future__ import division, absolute_import, print_function
-from setuptools import setup, Extension
+from setuptools import setup, Extension, find_packages
 from Cython.Build import cythonize
 
 def get_extensions():
@@ -16,16 +16,13 @@ def get_extensions():
 
 def setup_gravpy():
 
-    
-    from numpy.distutils.misc_util import Configuration
-    config_dict = Configuration('gravpy',parent_package=None,top_path=None)
-    
+
     setup(name='gravpy',
           version='0.1',
           description='A general gravitational lens solver written in python',
           author='Sourabh Cheedella',
           author_email='cheedella.sourabh@gmail.com',
-          packages=['gravpy'],
+          packages=find_packages(),
           install_requires=['cython','numpy','scipy','matplotlib',],
           ext_modules= cythonize(get_extensions()),
     )
