@@ -6,8 +6,8 @@ from gravpy.python.alpha import alphapy
 from gravpy.cython.alpha import alphac
 from gravpy.cython.sie import siec
 
-use_fortran_modules = True
-if use_fortran_modules:
+
+try:
     # f2py modules imported below, clunky pathing due to fortran modules, full
     # function path is fmodel.fmodel.routine
     from gravpy.fortran.sie.sief import sief
