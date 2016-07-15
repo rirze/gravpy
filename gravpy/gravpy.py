@@ -1,4 +1,4 @@
-
+from __future__ import print_function, absolute_import
 import numpy as np
 from scipy.spatial import Delaunay 
 import scipy.optimize as op
@@ -6,8 +6,8 @@ import functools
 import logging
 import string
 
-import trinterior as trint
-import plots
+import gravpy.trinterior as trint
+import gravpy.plots
 
 class gravlens:
         
