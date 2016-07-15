@@ -4,7 +4,7 @@ import numpy as np
 #modelargs: (major) radius, x-center position, y-center position, ellipticity, ellipticity angle, core radius
 
         
-def elliptical(x,y,modelargs,numexpr=True):
+def elliptical(x,y,modelargs):
     b,x0,y0,e,te,s  = modelargs[:6]
     
     x2  = x*x
@@ -30,7 +30,7 @@ def elliptical(x,y,modelargs,numexpr=True):
     
     return np.array((pot,phix,phiy,phixx,phiyy,phixy))
 
-def spherical(x,y,modelargs,numexpr=True):
+def spherical(x,y,modelargs):
     b,x0,y0,e,te,s  = modelargs[:6]
 
     rad = np.sqrt(x*x+y*y+s*s)
