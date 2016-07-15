@@ -23,7 +23,7 @@ def setup_gravpy():
           author='Sourabh Cheedella',
           author_email='cheedella.sourabh@gmail.com',
           packages=find_packages(),
-          install_requires=['cython','numpy','scipy','matplotlib',],
+          install_requires=['cython','numpy','scipy','matplotlib','numba'],
           ext_modules= cythonize(get_extensions()),
     )
 

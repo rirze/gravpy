@@ -7,7 +7,7 @@ import logging
 import string
 
 import gravpy.trinterior as trint
-import gravpy.plots
+import gravpy.plots as plots
 
 class gravlens:
         

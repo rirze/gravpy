@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 
-from gravpy.python.sie import siepy
+from gravpy.python.sie import siepy, sienumba
 from gravpy.python.alpha import alphapy
 
 from gravpy.cython.alpha import alphac
@@ -17,8 +17,8 @@ except:
     pass
 
 
-sie_spherical = siec.spherical
-sie_ellipitical = siec.elliptical
+sie_spherical = sienumba.spherical
+sie_ellipitical = sienumba.elliptical
 
 alpha_plummer = alphapy.plummer
 alpha_general = alphac.general
