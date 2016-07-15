@@ -23,5 +23,5 @@ sie_ellipitical = siec.elliptical
 alpha_plummer = alphapy.plummer
 alpha_general = alphac.general
 
-nfw_general = nfwf.nfw
+nfw_general = None #nfwf.nfw
 
