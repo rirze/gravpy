@@ -1,9 +1,17 @@
 from __future__ import division, absolute_import, print_function
 from setuptools import setup, Extension, find_packages
-from Cython.Build import cythonize
+
+try:
+    from Cython.Build import cythonize
+except:
+    raise ImportWarning("Cython not installed")
+
+try:
+    from numpy import get_include
+except:
+    raise ImportWarning("Numpy not installed")
 
 def get_extensions():
-    from numpy import get_include
     numpy_include = get_include()
     extensions = [
         Extension('gravpy.cython.alpha.alphac', ['gravpy/cython/alpha/alphac.pyx'],
@@ -15,10 +23,10 @@ def get_extensions():
     return extensions
 
 def setup_gravpy():
-    from numpy.distutils.core import Extension as npext
 
-    f_modules = [npext(name= 'gravpy.fortran.sie.sief', sources = ['gravpy/fortran/sie/sief.f90'])]
-    modules = cythonize(get_extensions()) + f_modules
+    # from numpy.distutils.core import Extension as npext
+    # f_modules = [npext(name= 'gravpy.fortran.sie.sief', sources = ['gravpy/fortran/sie/sief.f90'])]
+    modules = cythonize(get_extensions()) # + f_modules
     
     setup(name='gravpy',
           version='0.1',
@@ -26,7 +34,7 @@ def setup_gravpy():
           author='Sourabh Cheedella',
           author_email='cheedella.sourabh@gmail.com',
           packages=find_packages(),
-          install_requires=['cython','numpy','scipy','matplotlib','numba'],
+          install_requires=['cython','numpy','scipy','matplotlib'],
           ext_modules= modules,
     )
 
