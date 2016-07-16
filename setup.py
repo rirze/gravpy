@@ -18,6 +18,7 @@ def setup_gravpy():
     from numpy.distutils.core import Extension as npext
 
     f_modules = [npext(name= 'gravpy.fortran.sie.sief', sources = ['gravpy/fortran/sie/sief.f90'])]
+    modules = cythonize(get_extensions()) + f_modules
     
     setup(name='gravpy',
           version='0.1',
@@ -26,7 +27,7 @@ def setup_gravpy():
           author_email='cheedella.sourabh@gmail.com',
           packages=find_packages(),
           install_requires=['cython','numpy','scipy','matplotlib','numba'],
-          ext_modules= cythonize(get_extensions()),
+          ext_modules= modules,
     )
 
 if __name__ == '__main__':
