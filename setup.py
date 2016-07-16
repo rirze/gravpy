@@ -15,8 +15,10 @@ def get_extensions():
     return extensions
 
 def setup_gravpy():
+    from numpy.distutils.core import Extension as npext
 
-
+    f_modules = [npext(name= 'gravpy.fortran.sie.sief', sources = ['gravpy/fortran/sie/sief.f90'])]
+    
     setup(name='gravpy',
           version='0.1',
           description='A general gravitational lens solver written in python',
