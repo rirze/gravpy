@@ -16,8 +16,7 @@ before_install:
   - pip install wheel
 # command to install dependencies
 install:
-  - pip wheel numpy
-  - pip install --user-wheel numpy
+  - pip install numpy
   - pip install cython
   - pip install .
 # command to run tests
