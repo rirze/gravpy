@@ -12,16 +12,15 @@ ctypedef np.float64_t DTYPE_t
 @cython.wraparound(False)
 def general(np.ndarray[DTYPE_t] x, np.ndarray[DTYPE_t] y, list modelargs_list):
     
-    cdef np.ndarray[DTYPE_t, ndim=1] modelargs = np.asarray(modelargs_list, dtype=DTYPE)
-    cdef np.ndarray[DTYPE_t] out1 = np.empty((x.size, 6), dtype=DTYPE)
-    
+    cdef np.ndarray[DTYPE_t] modelargs = np.asarray(modelargs_list, dtype=DTYPE)
+    cdef np.ndarray[DTYPE_t, ndim=2] out1 = np.empty((x.size, 6), dtype=DTYPE)
     cdef int i
     for i in range(x.size):
         single_eval(x[i],y[i],modelargs,out1[i])
 
     return np.transpose(out1)
 
-cdef void single_eval(DTYPE_t x, DTYPE_t y, np.ndarray[DTYPE_t, ndim=1] modelargs, np.ndarray[DTYPE_t, ndim=1] out):
+cdef void single_eval(DTYPE_t x, DTYPE_t y, np.ndarray[DTYPE_t, ndim=1] modelargs, np.ndarray[DTYPE_t] out):
     cdef DTYPE_t b  = modelargs[0]
     cdef DTYPE_t e  = modelargs[3]
     cdef DTYPE_t s  = modelargs[5]
@@ -84,8 +83,9 @@ cdef DTYPE_t alpha0phir(r,s,a):
         return log(1.0+r*r/(s*s))/r
     else:
         return 2.0/(a*r)*((s*s+r*r)**(a/2.0) - s**a)
-
+    
 cpdef alpha_integral(lower,upper,r,e,sint,cost,s,a):
+    # return [scipyint.quad(alpha_integrand,lower,upper,args=(r,e,sint,cost,s,a,num))[0] for num in range(6)]
     return [scipyint.quad(function,lower,upper,args=(r,e,sint,cost,s,a,num))[0] for num in range(6)]
 
 cdef DTYPE_t function(DTYPE_t u, DTYPE_t r, DTYPE_t e, DTYPE_t sint, DTYPE_t cost, DTYPE_t s, DTYPE_t a, int ind):

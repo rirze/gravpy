@@ -97,7 +97,7 @@ class alpha(baseModel):
     def phiarray(self, x, y, numexpr=True):
         modelargs = self.modelargs()
         modelargs_with_alpha = self.modelargs(alpha=True)
-
+        
         if self.alpha == 1.0:
             if self.e == 0.0:
                 return sie_spherical(x, y, modelargs)

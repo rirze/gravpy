@@ -270,7 +270,9 @@ class gravlens:
     
     def points5(self,xran,yran):
         '''A vectorized approach to bulding a 'recursive' subgrid without recursion. Algorithm works by vectorizing each level of cell-size, handling each level in one complete calculation before proceeding to the next. '''
-                
+
+        #TODO: Make first iteration more efficent, right now it calls for 4x every point
+        # look to replicate cached_points5 behavior
         x = xran[0:-1]
         y = yran[0:-1]
         xs, ys = np.tile(x,len(y)),np.repeat(y,len(x))

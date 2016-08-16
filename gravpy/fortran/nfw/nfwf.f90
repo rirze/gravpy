@@ -66,7 +66,7 @@ contains
        t1 = log(xx/2)
        if (xx < 1.0e-2) then
           pot = -0.5*xx*xx*(t1+(1.0+3.0*t1)*xx*xx/8.0+(3.0/32.0+5.0/24.0*t1)*xx*xx*xx*xx)
-       else if (x <= 1.0) then
+       else if (xx <= 1.0) then
           t2   = atanh(sqrt(1.0-xx*xx))
           pot = t1*t1-t2*t2
        else

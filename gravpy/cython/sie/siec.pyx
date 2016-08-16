@@ -1,7 +1,3 @@
-# cython: profile=True
-# cython: linetrace=True
-# distutils: define_macros=CYTHON_TRACE_NOGIL=1
-
 cimport cython
 import numpy as np
 cimport numpy as np
@@ -12,9 +8,9 @@ ctypedef np.float64_t DTYPE_t
 
 def elliptical(np.ndarray[DTYPE_t] x, np.ndarray[DTYPE_t] y, list modelargs_list):
     
-    cdef np.ndarray[DTYPE_t, ndim=1] modelargs = np.asarray(modelargs_list, dtype=DTYPE)
+    cdef np.ndarray[DTYPE_t] modelargs = np.asarray(modelargs_list, dtype=DTYPE)
+    cdef np.ndarray[DTYPE_t, ndim=2] out1 = np.empty((x.size, 6), dtype=DTYPE)
     cdef int i
-    cdef np.ndarray out1 = np.empty((x.size, 6), dtype=DTYPE)
     for i in range(x.size):
         elliptical_single_eval(x[i],y[i],modelargs,out1[i])
 

@@ -14,9 +14,11 @@ except:
 def get_extensions():
     numpy_include = get_include()
     extensions = [
-        Extension('gravpy.cython.alpha.alphac', ['gravpy/cython/alpha/alphac.pyx'],
+        Extension('gravpy.cython.alpha.alphac', ['gravpy/cython/alpha/alphac.pyx', 'gravpy/cython/alpha/integrand.c'],
                   include_dirs=[numpy_include]),
         Extension('gravpy.cython.sie.siec', ['gravpy/cython/sie/siec.pyx'],
+                  include_dirs=[numpy_include]),
+        Extension('gravpy.cython.nfw.nfwc', ['gravpy/cython/nfw/nfwc.pyx'],
                   include_dirs=[numpy_include]),
     ]
 

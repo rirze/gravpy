@@ -12,12 +12,9 @@ python:
   - "2.7"
   - "3.5"
 before_install:
-  - pip install -U pip
-  - pip install wheel
 # command to install dependencies
 install:
-  - pip install numpy
-  - pip install cython
+  - pip install numpy cython
   - pip install .
 # command to run tests
 # script: nosetests
