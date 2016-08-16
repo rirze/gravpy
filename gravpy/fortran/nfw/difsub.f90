@@ -1,9 +1,7 @@
 subroutine integrateN(func,a,b,ans)
-!  integer, intent(in) :: nvec
   real*8, intent(in) :: a,b
   real*8, intent(out) :: ans(6)
-
-
+  
   real*8 :: eps
   integer:: nmax,nsteps,nbad
   nmax = 5000
@@ -12,9 +10,9 @@ subroutine integrateN(func,a,b,ans)
   eps = 1.0d-9
   ans = 0.0d0
   
-  !print *,"got to wrapper"
+  ! print *,"got to wrapper"
   call difsub(func,a,b,ans,eps,nsteps,nbad,nmax)
-  print*, nsteps
+  ! print*, nsteps
 
 end subroutine integrateN
 
@@ -30,8 +28,8 @@ subroutine difsub(df,a,b,y,eps,neval,nbad,nmax)
   logical:: done,flag11
 
   integer :: j
-
-  !print *,"got to difsub"
+  
+  ! print *,"got to difsub"
   n = 6
   nsteps = 0
   done = .FALSE.
@@ -49,6 +47,7 @@ subroutine difsub(df,a,b,y,eps,neval,nbad,nmax)
   do
      !print *,"got to do loop"
      call df(tsave,ysave,dysave)
+     ! print *, "make first func call"
      neval = neval + 1
      flag11 = .TRUE.
 
@@ -155,7 +154,7 @@ subroutine difsub(df,a,b,y,eps,neval,nbad,nmax)
 
      enddo
 
-     !print *, "exited flag loop"
+     ! print *, "exited flag loop"
      nsteps = nsteps+1
      tsave = tsave + h
      if (done) then

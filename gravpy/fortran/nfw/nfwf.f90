@@ -40,7 +40,7 @@ contains
        cost = x/r
        sint = y/r
     else
-       res = (/ 0.,0.,0.,0.,0.,0. /) / 0
+       res = (/ 0.,0.,0.,0.,0.,0. /) / r ! a list of nan-s
        return
     endif
 
@@ -140,7 +140,7 @@ contains
   end function nfwFfunc
 
   function nfw_integral(a,b,r,sint,cost,e,s) result(integral)
-    use cui                     
+    !use cubpack                    
     real(8), intent(in) :: a,b,r,sint,cost,e,s
     real(8)  :: integral(6)
     integer  :: ndim,ncomp,maxeval,key,nregions,neval,fail
@@ -159,9 +159,10 @@ contains
     limits(1,2,1) = b
     rgtype(1) = 1
     fail = -1
-    
-    call cubatr(ndim,ncomp,nfwIntegrand,nregions,limits,rgtype,integral,abserr,&
-          key=key, maxpts=maxeval,neval=neval, ifail=fail)
+
+    call integrateN(nfwIntegrand, a, b, integral)
+    !call cubatr(ndim,ncomp,nfwIntegrand,nregions,limits,rgtype,integral,abserr)!,&
+    !      key=key, maxpts=maxeval,neval=neval, ifail=fail)
     !
     !call integrateN(nfwIntegrand,a,b,integral)
     !print *, 'Fail: ', fail
@@ -169,17 +170,17 @@ contains
     !print *, 'Key: ', key
     
   contains
-    function nfwIntegrand(ncomp,x) result(res)
-    !subroutine nfwIntegrand(x1,y,res) 
-      integer, intent(in) :: ncomp
-      real(8), intent(in) :: x(:)
-      real(8) :: x1
-      !real(8) :: res(6),y(6)
-      real(8) :: res(ncomp)
+    !function nfwIntegrand(ncomp,x) result(res)
+    subroutine nfwIntegrand(x1,y,res) 
+      !integer, intent(in) :: ncomp
+      !real(8), intent(in) :: x(:)
+      real(8) :: x1,y(6)
+      real(8) :: res(6)
+      !real(8) :: res(ncomp)
       
       real(8) :: q,t0,t1,t3,t5,mphiu,k,kp
       
-      x1 = x(1)
+      ! x1 = x(1)
       q  = 1.0 - e
       t0 = 1.0 - (1.0-q*q)*x1
       t1 = 1.0/sqrt(t0)
@@ -190,8 +191,8 @@ contains
             
       res = (/ t1*mphiu,t1*k,t3*k,t1*kp*x1,t5*kp*x1,t3*kp*x1 /)
       
-      
-    end function nfwIntegrand
+    end subroutine nfwIntegrand
+    !end function nfwIntegrand
 
     subroutine nfwkap(u,mphiu,k,kp)
       real(8), intent(in) :: u

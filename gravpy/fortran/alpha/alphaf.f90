@@ -118,7 +118,7 @@ contains
 
   
   function alpha0phir_integral(lower,upper,s,a) result(integral)
-    use cui
+    ! use cui
     real(8), intent(in) :: lower,upper,s,a
     real(8)  :: integral
     integer  :: ndim,maxeval,key,neval,fail
@@ -136,16 +136,18 @@ contains
     rgtype = 1
     fail = -1
 
-    call cubatr(ndim,f,limits,rgtype,integral,abserr,&
-         key=key, maxpts=maxeval,neval=neval, ifail=fail)
-    
+    ! call cubatr(ndim,f,limits,rgtype,integral,abserr,&
+    !      key=key, maxpts=maxeval,neval=neval, ifail=fail) 
+    call integrateN(f, lower, upper, integral)
 
   contains
-    function f(ncomp,x) result(res)
-      real(8), intent(in) :: x(:)
-      integer, intent(in) :: ncomp
-      real(8) :: res(ncomp),r
-      r = x(1)
+    !function f(ncomp,x) result(res)
+    subroutine f(r, y, res)
+      ! real(8), intent(in) :: x(:)
+      ! integer, intent(in) :: ncomp
+      !real(8) :: res(ncomp),r
+      !r = x(1)
+      real(8) :: r, y(6), res(6)
       
       if (r/s < 1.0e-4) then
          res = r*s**(a-2.0)

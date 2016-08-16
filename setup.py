@@ -1,5 +1,6 @@
 from __future__ import division, absolute_import, print_function
-from setuptools import setup, Extension, find_packages
+from setuptools import find_packages
+
 
 try:
     from Cython.Build import cythonize
@@ -8,18 +9,19 @@ except:
 
 try:
     from numpy import get_include
+    from numpy.distutils.core import setup, Extension
 except:
     raise ImportWarning("Numpy not installed")
 
 def get_extensions():
     numpy_include = get_include()
     extensions = [
-        Extension('gravpy.cython.alpha.alphac', ['gravpy/cython/alpha/alphac.pyx', 'gravpy/cython/alpha/integrand.c'],
-                  include_dirs=[numpy_include]),
-        Extension('gravpy.cython.sie.siec', ['gravpy/cython/sie/siec.pyx'],
-                  include_dirs=[numpy_include]),
-        Extension('gravpy.cython.nfw.nfwc', ['gravpy/cython/nfw/nfwc.pyx'],
-                  include_dirs=[numpy_include]),
+        Extension('gravpy.cython.alpha.alphac', ['gravpy/cython/alpha/alphac.pyx'], include_dirs=[numpy_include]),
+        Extension('gravpy.cython.sie.siec', ['gravpy/cython/sie/siec.pyx'], include_dirs=[numpy_include]),
+        Extension('gravpy.cython.nfw.nfwc', ['gravpy/cython/nfw/nfwc.pyx'], include_dirs=[numpy_include]),
+        #Extension('gravpy.fortran.cubpack', ['gravpy/fortran/cubpack/*f90']),
+        Extension('gravpy.fortran.nfw.nfwf', ['gravpy/fortran/nfw/nfwf.f90', 'gravpy/fortran/nfw/difsub.f90']),
+        #Extension('gravpy.fortran.alpha.alphaf', ['gravpy/fortran/alpha/alphaf.f90']),
     ]
 
     return extensions
@@ -38,6 +40,7 @@ def setup_gravpy():
           packages=find_packages(),
           install_requires=['cython','numpy','scipy','matplotlib'],
           ext_modules= modules,
+
     )
 
 if __name__ == '__main__':
