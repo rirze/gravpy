@@ -16,12 +16,14 @@ except:
 def get_extensions():
     numpy_include = get_include()
     extensions = [
-        Extension('gravpy.cython.alpha.alphac', ['gravpy/cython/alpha/alphac.pyx'], include_dirs=[numpy_include]),
+        # C files
         Extension('gravpy.cython.sie.siec', ['gravpy/cython/sie/siec.pyx'], include_dirs=[numpy_include]),
+        Extension('gravpy.cython.alpha.alphac', ['gravpy/cython/alpha/alphac.pyx'], include_dirs=[numpy_include]),
         Extension('gravpy.cython.nfw.nfwc', ['gravpy/cython/nfw/nfwc.pyx'], include_dirs=[numpy_include]),
-        #Extension('gravpy.fortran.cubpack', ['gravpy/fortran/cubpack/*f90']),
+        # Fortran files
+        Extension('gravpy.fortran.sie.sief', ['gravpy/fortran/sie/sief.f90']),
+        Extension('gravpy.fortran.alpha.alphaf', ['gravpy/fortran/alpha/alphaf.f90', 'gravpy/fortran/alpha/asa103.f90', 'gravpy/fortran/alpha/hyp.f']),
         Extension('gravpy.fortran.nfw.nfwf', ['gravpy/fortran/nfw/nfwf.f90', 'gravpy/fortran/nfw/difsub.f90']),
-        #Extension('gravpy.fortran.alpha.alphaf', ['gravpy/fortran/alpha/alphaf.f90']),
     ]
 
     return extensions

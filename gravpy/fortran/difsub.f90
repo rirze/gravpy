@@ -66,50 +66,50 @@ subroutine difsub(df,a,b,y,eps,neval,nbad,nmax)
         t3=t2+hhh
         t4=tsave+h
 
-        ! y2=ysave+hh*dysave
+        y2=ysave+hh*dysave
         call df(t2,y2,dy1)
         neval = neval + 1
         
-        ! y3=ysave+hh*dy1
-        ! y2=y2+2.0*y3
+        y3=ysave+hh*dy1
+        y2=y2+2.0*y3
 
         call df(t2,y3,dy1)
         neval = neval + 1
-        ! y3 = ysave+h*dy1
-        ! y2 = y2+y3
+        y3 = ysave+h*dy1
+        y2 = y2+y3
 
         call df(t4,y3,dy1)
         neval = neval + 1
         ysing = (y2-ysave+hh*dy1)/3.0
-        ! y2    = ysave+hhh*dysave 
+        y2    = ysave+hhh*dysave
 
         call df(t1,y2,dy1)
         neval = neval + 1
-        ! y3 = ysave+hhh*dy1
-        ! y2 = y2+2.0*y3
+        y3 = ysave+hhh*dy1
+        y2 = y2+2.0*y3
 
         call df(t1,y3,dy1)
         neval = neval + 1
-        ! y3 = ysave+hh*dy1
-        ! y2 = y2+y3
+        y3 = ysave+hh*dy1
+        y2 = y2+y3
 
         call df(t2,y3,dy1)
         neval = neval + 1
-        ! ydub = (y2-ysave+hhh*dy1)/3.0
+        ydub = (y2-ysave+hhh*dy1)/3.0
 
         call df(t2,ydub,dydub)
         neval = neval + 1
-        ! y2 = ydub+hhh*dydub
+        y2 = ydub+hhh*dydub
 
         call df(t3,y2,dy1)
         neval = neval + 1
-        ! y3 = ydub+hhh*dy1
-        ! y2 = y2+2.0*y3
+        y3 = ydub+hhh*dy1
+        y2 = y2+2.0*y3
 
         call df(t3,y3,dy1)
         neval = neval + 1
-        ! y3 = ydub+hh*dy1
-        ! y2 = y2+y3
+        y3 = ydub+hh*dy1
+        y2 = y2+y3
 
         call df(t4,y3,dydub)
         neval = neval + 1
